@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Job Tracker{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li style="color: green">{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <main class="min-h-screen bg-gray-100">
+      {% block content %} {% endblock %}
+
+      <footer class="text-center py-4 text-sm text-gray-500">&copy; 2024 Job Tracker App</footer>
+    </main>
+  </body>
+</html>

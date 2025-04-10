@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}All Job Applications{% endblock %} {% block content %}
+
+<div class="max-w-3xl mx-auto mt-10">
+  <h2 class="text-3xl font-bold text-blue-600 text-center my-6">All Job Applications</h2>
+
+  {% for job in jobs %}
+  <div class="bg-white shadow-md rounded p-4 border-2 border-dotted">
+    <h2 class="text-xl font-semibold text-gray-800">{{ job.position }}</h2>
+    <p class="text-gray-600">{{job.company}} - Applied on: {{ job.date_applied }}</p>
+    <p class="text-sm font-medium mt-1">Status: 
+      <span class="font-medium text-vblue-600"> {{ job.status }}</p>
+
+    <div class="mt-4 space-x-2">
+      <a href="{% url 'edit_job' job.id %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">✏️Edit Job</a>
+      <a href="{% url 'delete_job' job.id %}" class="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500"> 🗑️ Delete Job</a>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-gray-600 text-center">No jobs added yet.</p>
+  {% endfor %}
+
+  <div class="text-center mt-6">
+    <a href="{% url 'add_job' %}" class="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500"> + Add Job</a>
+    <a href="{% url 'home' %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
+      ⬅️ Back 
+    </a>
+  </div>
+</div>
+{% endblock %}

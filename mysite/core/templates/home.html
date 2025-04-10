@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<div style="display: grid; place-items: center">
+  <h1 class="text-3xl font-bold text-blue-600 text-center my-6">Job Tracker</h1>
+  <h1 class="text-sm font-medium mt-1 py-5">Start tracking your job applications here.</h1>
+
+  <a
+    href="{% url 'job_list' %}"
+    class="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm font-bold bg-blue-400 leading-6 capitalize duration-100 transform rounded-sm shadow cursor-pointer focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10 hover:shadow-lg hover:-translate-y-1"
+    >View Jobs</a
+  >
+</div>
+
+{% endblock %}
