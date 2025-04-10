@@ -1,44 +1,52 @@
-{% extends "base.html"%} {% block title %}Add Job{% endblock %} {% block content%}
+{% extends "base.html"%} {% block title %} Add Job {% endblock %} {% block content%}
 
-<div class="max-w-xl mx-auto bg-white p-6 shadow rounded mt-10">
-  <h2 class="text-2xl text-center font-bold mb-6"> New Job{{ name }}</h2>
+<div class="max-w-xl mx-auto py-2 shadow rounded mt-10">
+  <h2 class="text-2xl text-center font-bold  py-4 mb-6"> New Job{{ name }}</h2>
 </div>
+<div style="display: grid; place-items: center">
   <form method="post">
     {% csrf_token %} 
     <div class="space-y-4">
-    
-    <div class="mb-4">
-    <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700"><\label>
+    {% if form.errors %}
+    <div class="text-red-600 text-sm mb-4">
+      {{ form.errors }}
+    </div>
+    {% endif %}
+    <div class="mb-4 text-center py-2">
+    <label for="{{ form.position.id_for_label }}" class="block text-sm font-medium text-gray-700">
     Position
     </label>
         {{ form.position }}
     </div>
 
-    <div class="mb-4">
-    <label for="{{ form.company.id_for_label }}" class="block text-sm font-medium text-gray-700"> <\label>
+    <div class="mb-4 text-center py-2">
+    <label for="{{ form.company.id_for_label }}" class="block text-sm font-medium text-gray-700"> 
     Company
     </label>
     {{ form.company }}
     </div>
 
-    <div class="mb-4">
-    <label for="{{ form.date_applied.id_for_label }}" class="block text-sm font-medium text-gray-700"><\label>
+    <div class="mb-4 text-center py-2">
+    <label for="{{ form.date_applied.id_for_label }}" class="block text-sm font-medium text-gray-700">
       Date
     </label>
     {{ form.date_applied }}
     </div>
 
-    <div class="mb-4">
-    <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700"><\label>
+    <div class="mb-4 text-center py-2">
+    <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700">
     Status
     </label>
     {{ form.status }}
     </div>
 
-    <div class="mt-6">
+    <div class="mt-6 text-center py-2">
     <button type="submit" class="text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition">Submit</button>
-
+    </div>
+</form>
+  <div class="mt-6 text-center py-2">
     <a href="{% url 'job_list' %}" class="ml-4 text-sm text-gray-600 hover:underline"> Cancel </a>
-  </form>
+  </div>
 </div>
+
 {% endblock %}

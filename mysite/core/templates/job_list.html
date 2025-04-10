@@ -5,12 +5,11 @@
 
   {% for job in jobs %}
   <div class="bg-white shadow-md rounded p-4 border-2 border-dotted">
-    <h2 class="text-xl font-semibold text-gray-800">{{ job.position }}</h2>
-    <p class="text-gray-600">{{job.company}} - Applied on: {{ job.date_applied }}</p>
-    <p class="text-sm font-medium mt-1">Status: 
-      <span class="font-medium text-vblue-600"> {{ job.status }}</p>
-
-    <div class="mt-4 space-x-2">
+    <h2 class="text-xl font-semibold text-gray-800 text-center">{{ job.position }}</h2>
+    <p class="text-gray-600 text-center py-5">{{job.company}} - Applied on: {{ job.date_applied }}</p>
+    {% comment %} {& filter status &} {% endcomment %}
+    
+    <div class="mt-4 space-x-2 text-center">
       <a href="{% url 'edit_job' job.id %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">✏️Edit Job</a>
       <a href="{% url 'delete_job' job.id %}" class="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500"> 🗑️ Delete Job</a>
     </div>
@@ -18,6 +17,18 @@
   {% empty %}
   <p class="text-gray-600 text-center">No jobs added yet.</p>
   {% endfor %}
+
+  <form method="get" class="mb-6 text-center">
+      <label for="status" class="mr-2 font-medium"> Filter Status:</label>
+      <select name="status" id="status" class="border border-gray-300 rounded px-3 py-1">
+        <option value=""> All</option>
+        <option value"applied" {% if request.GET.status == "applied" %}selected{%endif%}>applied</option>
+        <option value"interview" {% if request.GET.status == "interview" %}selected{%endif%}>interview</option>
+        <option value"offer" {% if request.GET.status == "offer" %}selected{%endif%}>offer</option>
+        <option value"rejected" {% if request.GET.status == "rejected" %}selected{%endif%}>rejected</option>
+      </select>
+      <button type="submit" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded">Filter</button>
+    </form>
 
   <div class="text-center mt-6">
     <a href="{% url 'add_job' %}" class="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500"> + Add Job</a>

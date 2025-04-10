@@ -48,6 +48,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -70,6 +71,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 
+INTERNAL_IPS = ["127.0.0.1"]
+INSTALLED_APPS += ["debug_toolbar"]
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
