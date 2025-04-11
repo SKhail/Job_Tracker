@@ -67,3 +67,4 @@ def test_view(request):
     if request.method == 'POST':
         print("Form Sucessful")
     return render(request, 'test.html')
+
