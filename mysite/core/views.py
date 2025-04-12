@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
 from .forms import JobForm
 from .models import Job
 
@@ -61,6 +63,18 @@ def job_list(request):
         jobs = Job.objects.all()
     return render(request, 'job_list.html', {'jobs': jobs})
 
+# User to be able to log in
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user) # Option for users to login immedately 
+            messages.success(request, "Account Created! ✅")
+            return redirect('job_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form' : form})
 
 # Testing the add job form 
 def test_view(request):
