@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 
 from .forms import JobForm
@@ -9,6 +10,7 @@ from .models import Job
 def home(request):
     return render(request, 'home.html')
 
+@login_required
 def add_job(request):
     if request.method == 'POST':
         form = JobForm(request.POST)
@@ -50,6 +52,7 @@ def delete_job(request, job_id):
 
 
 # Job lists 
+@login_required
 def job_list(request):
     jobs = Job.objects.all() # Get all the mobs from the database
 
@@ -64,7 +67,7 @@ def job_list(request):
     return render(request, 'job_list.html', {'jobs': jobs})
 
 # User to be able to log in
-def register(request):
+def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -74,7 +77,7 @@ def register(request):
             return redirect('job_list')
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form' : form})
+    return render(request, 'signup.html', {'form' : form})
 
 # Testing the add job form 
 def test_view(request):

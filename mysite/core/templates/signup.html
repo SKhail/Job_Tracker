@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %}Register{% endblock %} {% block content %}
+<div class="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded">
+  <h1 class="text-xl font-bold mb-4 text-center">Sign Up</h1>
+  <form method="post" class="space-y-4 md:space-y-6">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label
+        for="{{ from.username.id_for_label }}"
+        class="w-full rounded-md bg-white text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+        >Username</label
+      >
+      {{ form.username }} {% if form.username.error %}
+      <p class="text-red-500 text-sm">{{form.username.error.0 }}</p>
+      {% endif %}
+    </div>
+    <div class="mb-4">
+      <p class="text-gray-500 text-xs">At least 8 characters, not all numbers.</p>
+      <label for="{{ form.password1.id_for_label }}">Password</label>
+      {{ form.password1 }} {% if form.password1.errors %}
+      <p class="text-red-500 text-sm">{{ form.password1.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div class="mb-4">
+      <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+      {{ form.password2 }} {% if form.password2.errors %}
+      <p class="text-red-500 text-sm">{{ form.password2.errors.0 }}</p>
+      {% endif %}
+    </div>
+    <button type="submit" class="bg-blue-600 hover=underline text-white px-4 py-2 rounded">Sign Up</button>
+  </form>
+</div>
+{% endblock %}
