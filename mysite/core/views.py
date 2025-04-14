@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.contrib.auth import login
 
 from .forms import JobForm
@@ -21,8 +22,6 @@ def add_job(request):
     else:
         form = JobForm()
     return render(request, 'add_job.html', {'form': form})
-
-
 
 # update jobs by providing a edit feature
 def edit_job(request, job_id):
@@ -57,14 +56,17 @@ def job_list(request):
     jobs = Job.objects.all() # Get all the mobs from the database
 
     status_filter = request.GET.get('status')
-
     if status_filter:
         jobs = Job.objects.filter(status=status_filter)
         print(" Folter Applied:, status_filter") #Debug
         print("Matching Jobs", jobs.count()) #Debug
     else:
         jobs = Job.objects.all()
-    return render(request, 'job_list.html', {'jobs': jobs})
+    paginator = Paginator(jobs, 5) # Show 5 jobs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'job_list.html', {'page_obj': page_obj})
 
 # User to be able to log in
 def signup(request):
