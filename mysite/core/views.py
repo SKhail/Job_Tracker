@@ -5,13 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib.auth import login
 from sorting.sorting_jobs import SortRecent, SortOldest  # Sorting Job Posts 
+from filtering.filtering_jobs import StatusFilter   # Filtering Job Post 
+
+
 from .forms import JobForm
 from .models import Job
-
-
-
-
-
 
 def home(request):
     return render(request, 'home.html')
@@ -60,23 +58,18 @@ def delete_job(request, job_id):
 def job_list(request):
     sorting_jobs = request.GET.get('sort', 'recent')
 
-    if sorting_jobs == 'oldest':
-        sorting = SortOldest()
-    else:
-        sorting = SortRecent() # It will be default
-
+    sorting =  SortOldest() if sorting_jobs == 'oldest' else SortRecent()
     jobs =  sorting.sort(Job.objects.all()) # Getting the data and sorting it
 
-    status_filter = request.GET.get('status')
-    if status_filter:
-        jobs = Job.filter(status=status_filter)
-
+    status_filter = StatusFilter()
+    jobs =  status_filter.apply(jobs, request) # Getting the data and apply filtering feature 
+    
     paginator = Paginator(jobs, 5) # Show 5 jobs per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'job_list.html', {'page_obj': page_obj})
-
+ 
 # User to be able to log in
 def signup(request):
     if request.method == 'POST':
@@ -90,9 +83,4 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form' : form})
 
-# Testing the add job form 
-def test_view(request):
-    if request.method == 'POST':
-        print("Form Sucessful")
-    return render(request, 'test.html')
 

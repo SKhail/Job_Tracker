@@ -51,6 +51,12 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
+
+LOGIN_URL = '/login/'  # Or whatever your actual login URL is
+LOGIN_REDIRECT_URL = '/jobs/'  # wherever you want users to land after login
+SESSION_COOKIE_SECURE = False  # If testing locally over HTTP
+CSRF_COOKIE_SECURE = False  
+
 ROOT_URLCONF = "mysite.urls"
 
 TEMPLATES = [
