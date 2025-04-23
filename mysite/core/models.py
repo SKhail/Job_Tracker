@@ -21,3 +21,11 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.position} at {self.company}"
+    
+
+class Note(models.Model):
+    job = Job.models.ForeignKey(Job, on_delete=models.CASCADE)
+    content = models.TextField(max_length=100)
+    created_at = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True) # Link jobs to Users
+
