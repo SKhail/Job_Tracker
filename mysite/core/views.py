@@ -4,9 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib.auth import login
-
+from sorting.sorting_jobs import SortRecent, SortOldest  # Sorting Job Posts 
 from .forms import JobForm
 from .models import Job
+
+
+
+
+
 
 def home(request):
     return render(request, 'home.html')
@@ -53,15 +58,19 @@ def delete_job(request, job_id):
 # Job lists 
 @login_required
 def job_list(request):
-    jobs = Job.objects.all() # Get all the mobs from the database
+    sorting_jobs = request.GET.get('sort', 'recent')
+
+    if sorting_jobs == 'oldest':
+        sorting = SortOldest()
+    else:
+        sorting = SortRecent() # It will be default
+
+    jobs =  sorting.sort(Job.objects.all()) # Getting the data and sorting it
 
     status_filter = request.GET.get('status')
     if status_filter:
-        jobs = Job.objects.filter(status=status_filter)
-        print(" Folter Applied:, status_filter") #Debug
-        print("Matching Jobs", jobs.count()) #Debug
-    else:
-        jobs = Job.objects.all()
+        jobs = Job.filter(status=status_filter)
+
     paginator = Paginator(jobs, 5) # Show 5 jobs per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
