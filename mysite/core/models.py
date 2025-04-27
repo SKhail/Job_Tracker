@@ -24,7 +24,7 @@ class Job(models.Model):
     
 
 class Note(models.Model):
-    job = Job.models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="notes")
     content = models.TextField(max_length=100)
     created_at = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True) # Link jobs to Users
