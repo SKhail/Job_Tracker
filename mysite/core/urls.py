@@ -12,5 +12,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'), # login path 
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'), # logout path
     path('signup/', views.signup, name='signup'), # Register path 
+    path('note/<int:job_id>/add_note/', views.add_note, name='add_note'),     # add a note 
+    path('note/<int:note_id>/delete/', views.delete_note, name='delete_note'),  # Delete notes
 
 ]

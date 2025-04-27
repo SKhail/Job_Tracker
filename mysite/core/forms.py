@@ -1,6 +1,7 @@
 from django import forms
 from .models import Job
 from .models import Note
+
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
@@ -22,4 +23,14 @@ class JobForm(forms.ModelForm):
             'class': 'w-full px-3 py-2 border border-gray-300 rounded'
 
             }),
+        }
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model =  Note
+        fields = '__all__'
+        widgets = {
+            'content': forms.TextInput(attrs={
+            'class': 'w-full px-3 py-2 border border-gray-300 rounded'
+            })
         }

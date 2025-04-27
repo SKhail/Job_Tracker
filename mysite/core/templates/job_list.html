@@ -6,9 +6,16 @@
   {% for job in page_obj %}
   <div class="bg-white shadow-md rounded p-4 border-2 border-dotted">
     <h2 class="text-xl font-semibold text-gray-800 text-center">{{ job.position }}</h2>
-    <p class="text-gray-600 text-center py-5">{{job.company}} - Applied on: {{ job.date_applied }}</p>
+    <p class="text-gray-600 text-center py-2"> Job: {{job.company}} </p>
+    <p class="text-gray-600 text-center py-2">- Applied on: {{ job.date_applied }}</p>
     {% comment %} {& filter status &} {% endcomment %}
-    
+
+    {% comment %} rendering the note feature  {% endcomment %}
+    <form method="post" action="{% url 'add_note' job.id %}">
+      {% csrf_token %}
+      {{ form.content }}
+    <button type ="submit" class="text-white bg-blue-600 px-2 py-1 rounded"> Add Note</button>
+    </form>
     <div class="mt-4 space-x-2 text-center">
       <a href="{% url 'edit_job' job.id %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">✏️Edit Job</a>
       <a href="{% url 'delete_job' job.id %}" class="bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500"> 🗑️ Delete Job</a>
@@ -16,8 +23,9 @@
   </div>
   {% empty %}
   <p class="text-gray-600 text-center">No jobs added yet.</p>
-  {% endfor %}
 
+
+  {% endfor %}
   <form method="get" action="{% url 'job_list' %}" class="mb-6 text-center">
       <label for="status" class="mr-2 font-medium"> Filter Status:</label>
       <select name="status" id="status" class="border border-gray-300 rounded px-3 py-1">
@@ -29,9 +37,10 @@
       </select>
       <button type="submit" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded">Filter</button>
     </form>
-
+  
   <div class="text-center mt-6">
     <a href="{% url 'add_job' %}" class="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500"> + Add Job</a>
+    
     <a href="{% url 'home' %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
       ⬅️ Back 
     </a>
@@ -50,6 +59,9 @@
       Next ➡️
     </a>
   {% endif %}
+  
+   
+  
 </div>
 </div>
 {% endblock %}

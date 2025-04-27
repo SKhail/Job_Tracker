@@ -11,6 +11,9 @@ from filtering.filtering_jobs import StatusFilter   # Filtering Job Post
 from .forms import JobForm
 from .models import Job
 
+from .forms import NoteForm
+from .models import Note
+
 def home(request):
     return render(request, 'home.html')
 
@@ -52,7 +55,6 @@ def delete_job(request, job_id):
     
     return render(request, 'delete_job.html', {'job': job})
 
-
 # Job lists 
 @login_required
 def job_list(request):
@@ -83,4 +85,38 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form' : form})
 
+
+# For creating notes in job posts
+@login_required
+def add_note(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    if request.method == 'POST':
+        form = NoteForm(request.POST) 
+    if form.is_valid():
+        note = form.save(commit=False)
+        note.job = job
+        note.user = request.user
+        note.save()
+        messages.success(request, "You have Succesfully added a 📝")
+        return redirect('job_list')
+    else:
+        form = NoteForm()
+        return render(request, 'add_note.html', {'form': form})
+
+# Deleting a note in the job post
+@login_required
+def delete_note(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+
+    # Adding Security Layer to give protection for users
+    if  note.user != request.user:
+        messages.error(request, "You are not allowed to delete this note.")
+        return redirect('job_list')
+    
+    if request.method == 'POST':
+        note.delete()
+        messages.success(request, "Note has been 🗑️")
+        return redirect('job_list')
+    return render(request, 'delete_note.html', {'note': note})
 
