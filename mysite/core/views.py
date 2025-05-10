@@ -7,6 +7,9 @@ from django.contrib.auth import login
 from sorting.sorting_jobs import SortRecent, SortOldest  # Sorting Job Posts 
 from filtering.filtering_jobs import StatusFilter   # Filtering Job Post 
 
+from rest_framework import generics 
+from .serializers import JobSerializers
+
 
 from .forms import JobForm
 from .models import Job
@@ -120,3 +123,8 @@ def delete_note(request, note_id):
         return redirect('job_list')
     return render(request, 'delete_note.html', {'note': note})
 
+
+# Creating API to push to frontend
+class JobListCreateView(generics.ListCreateAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializers

@@ -24,6 +24,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -la
+          find . -name "manage.py"
+
       - name: Run Django tests
         run: |
+          cd $(find . -name "manage.py" | head -n 1 | xargs dirname)
           python manage.py test

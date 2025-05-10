@@ -1,6 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from .views import JobListCreateView
 from . import views
+
 
 
 urlpatterns = [
@@ -14,5 +16,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'), # Register path 
     path('note/<int:job_id>/add_note/', views.add_note, name='add_note'),     # add a note 
     path('note/<int:note_id>/delete/', views.delete_note, name='delete_note'),  # Delete notes
+    path('api/jobs/', JobListCreateView.as_view(), name='job-list-create'),
 
 ]
