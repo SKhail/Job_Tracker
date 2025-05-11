@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
-import JobList from "./components/JobList";
+import KanbanBoard from "./components/KanbanBoard";
 
 function App() {
   return (
     <>
       <div className="p-4">
         <h1 className="font-bold text-xl">Job Tracker </h1>
-        <JobList />
+        <KanbanBoard />
       </div>
     </>
   );
