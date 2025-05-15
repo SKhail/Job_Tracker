@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import KanbanColumn from "./KanbanColumn";
 
 const mockData = [
@@ -22,15 +22,27 @@ const mockData = [
   },
 ];
 
-// console.log(mockData);
-
 const KanbanBoard = () => {
-  console.log(mockData);
+  const [jobs, setJobs] = useState([...mockData]);
+  const [draggingJobId, setDraggingJobId] = useState(null);
+
+  // function to drag over feature
+  const handleDragStart = (e, jobId) => {
+    setDraggingJobId(jobId);
+  };
+
+  const handleDrop = (e, newStatus) => {
+    setJobs((prevJobs) => prevJobs.map((jobs) => (jobs.id === draggingJobId ? { ...jobs, status: newStatus } : jobs)));
+    setDraggingJobId(null);
+  };
+
   return (
     <>
-      <KanbanColumn title="To Do" status="To Do" jobs={mockData} />
-      <KanbanColumn title="In Progress" status="In Progress" jobs={mockData} />
-      <KanbanColumn title="Done" status="Done" jobs={mockData} />
+      <div className="text-center flex flex-nowrap justify-center overflow-x-auto  gap-4 py-5">
+        <KanbanColumn title="To Do" status="To Do" jobs={jobs} handleDragStart={handleDragStart} handleDrop={handleDrop} />
+        <KanbanColumn title="In Progress" status="In Progress" jobs={jobs} handleDragStart={handleDragStart} handleDrop={handleDrop} />
+        <KanbanColumn title="Done" status="Done" jobs={jobs} handleDragStart={handleDragStart} handleDrop={handleDrop} />
+      </div>
     </>
   );
 };

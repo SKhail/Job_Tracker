@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className="p-4">
-        <h1 className="font-bold text-xl">Job Tracker </h1>
+        <h1 className="font-bold text-xl text-center">Job Tracker </h1>
         <KanbanBoard />
       </div>
     </>
